@@ -5,6 +5,7 @@ export default defineConfig({
     include: ["src/**/*.{test,spec}.ts"],
     coverage: {
       include: ["src/**/*.{test,spec}.ts"],
+      enabled: true,
     },
   },
 });
