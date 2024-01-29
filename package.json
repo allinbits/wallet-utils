@@ -9,8 +9,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "dev": "vitest",
+    "test": "vitest run"    
   },
   "keywords": [],
   "author": "",

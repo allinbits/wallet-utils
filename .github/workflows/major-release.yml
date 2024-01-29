@@ -1,0 +1,32 @@
+name: Publish new major version
+
+# Controls when the action will run. 
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    - name: Use Node.js 18
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: pnpm install    
+    - name: Configure git
+      run: git config --global user.email "hello@allinbits.com" &&  git config --global user.name "Github CI"
+    - name: Build
+      run: pnpm build
+    - name: Publish
+      run: pnpm major
+
+      env:
+        GH_TOKEN: ${{ secrets.aib_gh_token }}
+        GITHUB_TOKEN: ${{ secrets.aib_gh_token }}
+        NODE_AUTH_TOKEN: ${{secrets.aib_npm_token}}
