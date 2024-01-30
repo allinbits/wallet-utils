@@ -17,6 +17,7 @@ jobs:
       with:
         node-version: 20
         cache: 'pnpm'
+        registry-url: 'https://registry.npmjs.org'
     - name: Install dependencies
       run: pnpm install    
     - name: Configure git
@@ -26,7 +27,7 @@ jobs:
     - name: Set version
       run: pnpm version minor
     - name: Push
-      run: git push
+      run: git push && git push --tags
     - name: Publish
       run: npm publish
 
