@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  publish_patch:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v4
@@ -23,10 +23,12 @@ jobs:
       run: git config --global user.email "hello@allinbits.com" &&  git config --global user.name "Github CI"
     - name: Build
       run: pnpm build
+    - name: Set version
+      run: pnpm version patch
+    - name: Commit
+      run: git push
     - name: Publish
-      run: pnpm patch
+      run: npm publish
 
       env:
-        GH_TOKEN: ${{ secrets.aib_gh_token }}
-        GITHUB_TOKEN: ${{ secrets.aib_gh_token }}
         NODE_AUTH_TOKEN: ${{secrets.aib_npm_token}}
