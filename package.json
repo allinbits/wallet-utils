@@ -1,6 +1,6 @@
 {
   "name": "@nephos/wallet-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -11,7 +11,7 @@
     "build": "tsc",
     "coverage": "vitest run --coverage",
     "dev": "vitest",
-    "test": "vitest run"    
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
