@@ -10,6 +10,7 @@ on:
 
 jobs:
   coverage:
+    name: Coverage
     runs-on: ubuntu-20.04
     permissions:
       # Required to checkout the code
