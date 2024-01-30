@@ -1,16 +1,21 @@
 name: Linting
+
 on:
   pull_request_target:
     types:
       - opened
       - edited
       - synchronize
+
+
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
     - uses: pnpm/action-setup@v2
       with:
         version: 8
@@ -22,7 +27,9 @@ jobs:
     - name: Install dependencies
       run: pnpm install    
     - name: Run eslint on changed files
-      uses: reviewdog/action-eslint@v1
+      uses: tj-actions/eslint-changed-files@v23
       with:
-        reporter: github-pr-check
-        eslint_flags: " -c .eslintrc.js './src/**/*.ts' --max-warnings=0 --ignore-path .gitignore"
+        config_path: ".eslintrc.js"
+        ignore_path: ".gitignore"
+        file_extensions: './src/**/*.ts'
+        extra_args: "--max-warnings=0"
