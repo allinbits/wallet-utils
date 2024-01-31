@@ -9,9 +9,17 @@ module.exports = {
   plugins: ["@typescript-eslint", "prettier"],
   root: true,
   rules: {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        tabWidth: 2,
+        singleQuote: false,
+        trailingComma: "all",
+        printWidth: 120,
+        bracketSpacing: true,
+      },
+    ],
     "no-unused-vars": "off",
-    "no-var": "off",
     "@typescript-eslint/no-unused-vars": [
       "error", // or "error"
       {

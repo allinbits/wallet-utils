@@ -1,21 +1,31 @@
-import { ProxyAPI, bindToWindow } from "./extension";
+import * as bindings from "./binder";
 import { expect, test } from "vitest";
 
 declare global {
-  var wallet: ProxyAPI;
+  // eslint-disable-next-line no-var
+  var wallet: typeof testBindings;
 }
 
+const testBindings = {
+  test1() {},
+  test2() {},
+  test3() {},
+};
+
 test("test binding to 'window' or 'global' variables", () => {
+  const bindingName = "wallet";
+
   const target = typeof window !== "undefined" ? window : global;
 
   expect(typeof target).not.toBe("undefined");
-  expect(Object.hasOwn(target, "wallet")).toBe(false);
+  expect(Object.hasOwn(target, bindingName)).toBe(false);
 
-  bindToWindow(target, "wallet");
+  bindings.set(bindingName, testBindings);
 
-  expect(typeof target.wallet).not.toBe("undefined");
+  expect(typeof target[bindingName]).not.toBe("undefined");
 
-  expect(typeof target.wallet?.test1).toBe("function");
-  expect(typeof target.wallet?.test2).toBe("function");
-  expect(typeof target.wallet?.test3).toBe("function");
+  const result = bindings.get<typeof testBindings>(bindingName);
+  expect(typeof result.test1).toBe("function");
+  expect(typeof result.test2).toBe("function");
+  expect(typeof result.test3).toBe("function");
 });
