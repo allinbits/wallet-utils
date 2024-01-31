@@ -45,15 +45,13 @@ export function setClass<T = object>(name: string, bindings: T) {
     [key in typeof name]: object;
   };
 
-  const newBindings: { [key: string]: Function } = {};
-  for (let key of Object.getOwnPropertyNames(Object.getPrototypeOf(bindings))) {
+  const newBindings: { [key: string]: () => void } = {};
+  for (const key of Object.getOwnPropertyNames(Object.getPrototypeOf(bindings))) {
     if (typeof key !== "string") {
       continue;
     }
 
-    newBindings[key] = (bindings as { [key: string]: Function })[key].bind(
-      bindings
-    );
+    newBindings[key] = (bindings as { [key: string]: () => void })[key].bind(bindings);
   }
 
   target[name] = newBindings;
