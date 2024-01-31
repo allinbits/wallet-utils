@@ -5,7 +5,7 @@
  * ```ts
  * type bindings = { test: Function };
  *
- * set<bindings>("wallet", bindings);
+ * setObject<bindings>("wallet", bindings);
  * ```
  *
  * @export
@@ -13,12 +13,50 @@
  * @param {string} name
  * @param {T} bindings
  */
-export function set<T = object>(name: string, bindings: T) {
+export function setObject<T = object>(name: string, bindings: T) {
   (
     globalThis as typeof globalThis & {
       [key in typeof name]: T;
     }
   )[name] = bindings;
+}
+
+/**
+ * Safely binds class functions to globalThis
+ *
+ * @example
+ * ```ts
+ * class Test {
+ *    constructor(){}
+ *
+ *    test1() {}
+ * }
+ *
+ * setClass('wallet', new Test());
+ * ```
+ *
+ * @export
+ * @template T
+ * @param {string} name
+ * @param {T} bindings
+ */
+export function setClass<T = object>(name: string, bindings: T) {
+  const target = globalThis as typeof globalThis & {
+    [key in typeof name]: object;
+  };
+
+  const newBindings: { [key: string]: Function } = {};
+  for (let key of Object.getOwnPropertyNames(Object.getPrototypeOf(bindings))) {
+    if (typeof key !== "string") {
+      continue;
+    }
+
+    newBindings[key] = (bindings as { [key: string]: Function })[key].bind(
+      bindings
+    );
+  }
+
+  target[name] = newBindings;
 }
 
 /**
