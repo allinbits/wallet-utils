@@ -11,8 +11,8 @@
     "build": "tsc",
     "coverage": "vitest run --coverage",
     "dev": "vitest",
-    "lint": "eslint -c .eslintrc.js './src/**/*.ts' --ignore-path .gitignore",
-    "lint:fix": "eslint -c .eslintrc.js './src/**/*.ts' --fix --ignore-path .gitignore",
+    "lint": "eslint -c .eslintrc.js \"./src/**/*.ts\" --ignore-path .gitignore",
+    "lint:fix": "eslint -c .eslintrc.js \"./src/**/*.ts\" --fix --ignore-path .gitignore",
     "test": "vitest run"
   },
   "keywords": [],
@@ -28,5 +28,8 @@
     "prettier": "^3.2.4",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
+  },
+  "prettier": {
+    "tabWidth": 2
   }
 }
