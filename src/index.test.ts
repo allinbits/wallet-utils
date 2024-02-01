@@ -35,7 +35,7 @@ test("test binding to 'window' or 'global' variables with object", () => {
   expect(typeof target).not.toBe("undefined");
   expect(Object.hasOwn(target, bindingName)).toBe(false);
 
-  bindings.setObject(bindingName, testBindings);
+  bindings.set(bindingName, testBindings);
 
   expect(typeof target[bindingName]).not.toBe("undefined");
 
@@ -54,7 +54,7 @@ test("test binding to 'window' or 'global' variables with class", () => {
   const testClass2 = new Test();
   expect(testClass2.getId() === 1).toBe(true);
 
-  bindings.setClass(bindingName, testClass);
+  bindings.set(bindingName, testClass);
 
   const target = typeof window !== "undefined" ? window : global;
   expect(typeof target[bindingName]).not.toBe("undefined");

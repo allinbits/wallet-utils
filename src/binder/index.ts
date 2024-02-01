@@ -1,30 +1,15 @@
 /**
- * Safely binds functions to globalThis
+ * Safely binds an `object` or `class` to the window instance under a name variable
+ *
+ * Avoid using `lambda` functions for classes for this to work properly.
  *
  * @example
  * ```ts
  * type bindings = { test: Function };
  *
- * setObject<bindings>("wallet", bindings);
+ * set("wallet", bindings);
  * ```
  *
- * @export
- * @template T
- * @param {string} name
- * @param {T} bindings
- */
-export function setObject<T = object>(name: string, bindings: T) {
-  (
-    globalThis as typeof globalThis & {
-      [key in typeof name]: T;
-    }
-  )[name] = bindings;
-}
-
-/**
- * Safely binds class functions to globalThis
- *
- * @example
  * ```ts
  * class Test {
  *    constructor(){}
@@ -32,15 +17,26 @@ export function setObject<T = object>(name: string, bindings: T) {
  *    test1() {}
  * }
  *
- * setClass('wallet', new Test());
+ * set("wallet", new Test());
  * ```
  *
  * @export
- * @template T
  * @param {string} name
- * @param {T} bindings
+ * @param {object} bindings
+ * @return {*}
  */
-export function setClass<T = object>(name: string, bindings: T) {
+export function set(name: string, bindings: object) {
+  const isObject = (Object.keys(bindings) as Array<keyof object>).find((key) => typeof bindings[key] === "function");
+
+  if (isObject) {
+    (
+      globalThis as typeof globalThis & {
+        [key in typeof name]: object;
+      }
+    )[name] = bindings;
+    return;
+  }
+
   const target = globalThis as typeof globalThis & {
     [key in typeof name]: object;
   };
