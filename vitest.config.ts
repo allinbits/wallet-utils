@@ -13,5 +13,9 @@ export default defineConfig({
         statements: 50,
       },
     },
+    browser: {
+      enabled: true,
+      name: 'chrome'
+    }
   },
 });
