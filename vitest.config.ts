@@ -12,6 +12,11 @@ export default defineConfig({
         functions: 50,
         statements: 50,
       },
+      provider: 'istanbul'
     },
+    browser: {
+      enabled: true,
+      name: 'chrome'
+    }
   },
 });
